@@ -65,6 +65,17 @@ IF %ERRORLEVEL% NEQ 0 (
     echo [SUCCESS] Docker container executed successfully! | tee -a "%LOGFILE%"
 )
 
+:: Add, commit, and push changes to the repository
+echo Committing and pushing changes to the repository... | tee -a "%LOGFILE%"
+git commit -am "new scraping" 2>&1 | tee -a "%LOGFILE%"
+git push 2>&1 | tee -a "%LOGFILE%"
+
+IF %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Git push failed! Check logs. | tee -a "%LOGFILE%"
+) ELSE (
+    echo [SUCCESS] Changes pushed to the repository successfully! | tee -a "%LOGFILE%"
+)
+
 echo Task Completed! | tee -a "%LOGFILE%"
 
 :: Log completion time
@@ -81,6 +92,7 @@ exit
 * **Docker Check and Startup:** It checks if Docker is running and starts it if necessary, waiting for it to fully initialize.
 * **Container Execution:** It runs the Docker container `grays_scraper` with a volume mount to the project directory, enabling the container to access local files.
 * **Error Handling:** It checks for errors during container execution and logs appropriate messages.
+* **Git Operations:** After the Docker container execution, the script commits and pushes any changes to the Git repository. It logs the success or failure of these operations.
 * **Completion Logging:** It logs the script's completion time.
 
 ## 3.  Docker Setup

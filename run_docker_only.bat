@@ -1,6 +1,6 @@
 @echo off
 :: Enable logging
-set LOGFILE=C:\Users\77nim\OneDrive\Desktop\Practice\TaskSchedulerBATFiles\script_log.txt
+set LOGFILE=C:\Users\77nim\OneDrive\Desktop\Practice\TaskSchedulerBATFiles\Grays_Task_Scheduler\script_log.txt
 
 :: Overwrite existing log file at the start
 echo ============================== > "%LOGFILE%"
@@ -38,6 +38,17 @@ IF %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Docker container failed! Check logs. | tee -a "%LOGFILE%"
 ) ELSE (
     echo [SUCCESS] Docker container executed successfully! | tee -a "%LOGFILE%"
+)
+
+:: Add, commit, and push changes to the repository
+echo Committing and pushing changes to the repository... | tee -a "%LOGFILE%"
+git commit -am "new scraping" 2>&1 | tee -a "%LOGFILE%"
+git push 2>&1 | tee -a "%LOGFILE%"
+
+IF %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Git push failed! Check logs. | tee -a "%LOGFILE%"
+) ELSE (
+    echo [SUCCESS] Changes pushed to the repository successfully! | tee -a "%LOGFILE%"
 )
 
 echo Task Completed! | tee -a "%LOGFILE%"
